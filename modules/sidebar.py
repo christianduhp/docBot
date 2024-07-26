@@ -6,6 +6,7 @@ def sidebar(dir):
     uploaded_pdfs = st.file_uploader(
         "Adicione arquivos pdf", type=[".pdf"], accept_multiple_files=True
     )
+    
     if not uploaded_pdfs is None:
         delete_all_pdf_files(dir)
         save_uploaded_pdfs(uploaded_pdfs, dir)
@@ -14,6 +15,9 @@ def sidebar(dir):
 
 
 def save_uploaded_pdfs(uploaded_pdfs, dir):
+    if not dir.exists():
+        dir.mkdir(parents=True, exist_ok=True)
+
     for pdf in uploaded_pdfs:
         with open(dir / pdf.name, "wb") as f:
             f.write(pdf.read())
