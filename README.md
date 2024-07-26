@@ -3,6 +3,9 @@
 
 This project uses Streamlit to create a conversational AI application that can interpret and respond to queries based on PDF documents uploaded by the user. The app is designed to allow users to change the prompt and parameters in the "Configurações" (Settings).
 
+![chatpdf](https://github.com/user-attachments/assets/af32a99c-46f8-498c-8c7a-99ec480c693f)
+
+
 ## Features
 
 - Upload multiple PDF files to initialize or update the chatbot
