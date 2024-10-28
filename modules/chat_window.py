@@ -1,9 +1,29 @@
 import streamlit as st
 
+from modules.rag_pipeline import RAGPipeline
+from config.config import FILES_DIR, get_config
+
+model_name = get_config("model_name")
+prompt = get_config("prompt")
+retrievel_search_type = get_config("retrievel_search_type")
+retrievel_kwargs = get_config("retrievel_kwargs")
+
+
+def initialize_chatbot(dir):
+    if len(list(dir.glob("*"))) == 0:
+        st.error("Adicione arquivos para inicializar o DocBot")
+    else:
+        st.success("Inicializando o DocBot...")
+        chat_chain = RAGPipeline(
+            FILES_DIR, model_name, prompt, retrievel_search_type, retrievel_kwargs
+        ).run()
+        st.session_state["chain"] = chat_chain
+        st.rerun()
+
 
 def check_initialization():
     if "chain" not in st.session_state:
-        st.warning("Adicione arquivos .pdf para inicializar o ChatBot")
+        st.warning("Adicione arquivos para inicializar o DocBot")
         st.stop()
 
 
@@ -29,11 +49,11 @@ def process_new_message(container, chain, new_message):
 
         response = chain.invoke({"question": new_message})
         st.session_state["last_response"] = response
-        st.experimental_rerun()
+        st.rerun()
 
 
 def chat_window():
-    st.header(":robot_face: Bem-vindo ao ChatPDF", divider=True)
+    st.header(":robot_face: Bem-vindo ao DocBot", divider=True)
     check_initialization()
 
     chain = st.session_state["chain"]

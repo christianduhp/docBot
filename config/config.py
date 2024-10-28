@@ -10,7 +10,7 @@ FILES_DIR = Path(__file__).parent.parent / "files"
 MODEL_NAME = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 RETRIEVEL_SEARCH_TYPE = "mmr"
 RETRIEVEL_KWARGS = {"k": 5, "fetch_k": 20}
-PROMPT = """Você é um ChatBot amigável que auxilia na interpretação de 
+PROMPT = """Você é um DocBot amigável que auxilia na interpretação de 
 documentos que lhe são fornecidos e SEMPRE responde em português, 
 independentemente do idioma da pergunta. 
 No contexto fornecido estão as informações dos documentos dos usuários. 
@@ -19,7 +19,7 @@ Se você não sabe a resposta, apenas diga que não sabe,
 em português e não tente inventar respostas. 
 NÃO responda em inglês ou qualquer outro idioma.
 
-Contexto: 
+Contexto / Documento fornecido: 
 {context}
 
 Conversa Atual: 
@@ -29,7 +29,6 @@ Humano:
 {question}
 
 IA (responda SEMPRE em português): 
-
         
 Contexto: 
 {context}

@@ -1,59 +1,98 @@
+# DocBot
 
-# ChatPDF - Conversational AI with PDF Documents
+DocBot is a chatbot that allows users to interact with documents in various formats, such as PDFs and Excel spreadsheets (.xlsx, .xlsb). It utilizes a Retrieval-Augmented Generation (RAG) architecture to process and respond to questions based on the content of the loaded documents.
 
-This project uses Streamlit to create a conversational AI application that can interpret and respond to queries based on PDF documents uploaded by the user. The app is designed to allow users to change the prompt and parameters in the "Configurações" (Settings).
+![docBOT](https://github.com/user-attachments/assets/76666c7f-57ba-46bc-ade8-9b422846d0e0)
+## Project Structure
 
-![chatpdf](https://github.com/user-attachments/assets/af32a99c-46f8-498c-8c7a-99ec480c693f)
+The project is structured as follows:
 
-
-## Features
-
-- Upload multiple PDF files to initialize or update the chatbot
-- Conversational AI that interprets and responds to questions based on the content of the uploaded PDFs
-- Uses `langchain` and `huggingface` for embedding and retrieval
-- Maintains a conversation history
+```
+├── modules
+│   ├── rag_pipeline.py
+│   ├── chatbot_initialization.py
+│   ├── chat_window.py
+│   └── sidebar
+├── pages
+│   └── [Streamlit page files]
+├── config
+│   └── config.py
+├── files
+│   └── [Temp files]
+├── .env
+├── requirements.txt
+└── Home.py
+```
 
 ## Installation
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/christianduhp/ChatPDF.git
-    cd ChatPDF
-    ```
+To install the project dependencies, run:
 
-2. Create a virtual environment and activate it:
-    ```bash
-    python -m venv venv
-    venv\Scripts\activate
-    ```
-
-3. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. Create a `.env` file in the root directory of the project and add the necessary environment variables:
-    ```env
-    HUGGINGFACEHUB_API_TOKEN=YOUR_TOKEN
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
-1. Start the Streamlit application:
-    ```bash
-    streamlit run Home.py
-    ```
+### Initialization
 
-2. In the Streamlit web interface:
-    - Upload one or more PDF files using the file uploader in the sidebar.
-    - Click the "Inicializar ChatBot" button to initialize the chatbot.
-    - Interact with the chatbot by typing questions in the input field. The chatbot will respond based on the content of the uploaded PDFs.
+To start DocBot:
 
+1. Obtain an API token from Hugginface.
+2. Save the token in the .env file as follows:
 
-## Contributing
+```bash
+HUGGINGFACEHUB_API_TOKEN=your_token_here
+```
+3. Add PDF, files or CSV and Excel spreadsheets (.xlsx, .xlsb, .csv) to the designated folder.
+4. Run the Streamlit application:
 
-Feel free to submit issues, fork the repository, and make pull requests. Any contributions are welcome!
+```bash
+streamlit run Home.py 
+
+# Or
+
+python -m streamlit run Home.py
+```
+
+5. In the interface, you can ask questions about the loaded documents.
+
+### `RAGPipeline` Class Structure
+
+The `RAGPipeline` class has the following main methods:
+
+- **`__init__`**: Initializes the pipeline with the directory of files, model name, prompt, retrieval search type, and retrieval parameters.
+  
+- **`load`**: Loads PDF, CSV, and Excel files from the specified directory. Converts Excel files to CSV when necessary and generates a list of documents for processing.
+
+- **`split`**: Splits documents into smaller chunks to facilitate information retrieval.
+
+- **`embed_and_store`**: Embeds the documents using embedding models and stores the results in a FAISS vector store.
+
+- **`retrieve`**: Creates a retriever to search for relevant documents based on user queries.
+
+- **`generate`**: Generates a conversational chain with a language model and memory.
+
+- **`run`**: Executes the complete pipeline, loading, splitting, embedding, and storing documents.
+
+### Streamlit Functions
+
+- **`initialize_chatbot`**: Initializes the chatbot by checking if there are available files for interaction. Displays error or success messages based on the presence of files.
+
+- **`check_initialization`**: Checks if the chatbot has been initialized correctly.
+
+- **`load_chat_history`**: Loads the chat history of the chatbot.
+
+- **`display_chat_history`**: Displays previous messages in the chatbot interface.
+
+- **`process_new_message`**: Processes new messages sent by the user and generates responses.
+
+- **`chat_window`**: Creates the chatbot interface, allowing user interactions.
+
+## Contributions
+
+Feel free to contribute to the project. To do so, create a new branch, make your changes, and submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the LICENSE file for more details.

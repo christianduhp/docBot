@@ -1,7 +1,6 @@
 import json
 import streamlit as st
-from config.config import get_config
-from modules.chatbot_initialization import FILES_DIR
+from config.config import get_config, FILES_DIR
 from modules.sidebar import initialize_chatbot
 
 
@@ -19,15 +18,13 @@ def config_page():
         "Modifique o prompt padrão", height=350, value=get_config("prompt")
     )
 
-    if st.button("Modificar parâmetros", use_container_width=True):
+    if st.button("Atualizar parâmetros e rodar Chat", use_container_width=True):
         retrievel_kwargs = json.loads(retrievel_kwargs.replace("'", '"'))
         st.session_state["model_name"] = model_name
         st.session_state["retrievel_search_type"] = retrievel_search_type
         st.session_state["retrievel_kwargs"] = retrievel_kwargs
         st.session_state["prompt"] = prompt
         st.rerun()
-
-    if st.button("Atualiza ChatBot", use_container_width=True):
         initialize_chatbot(FILES_DIR)
 
 
